@@ -20,8 +20,8 @@ class Animal:
         x = self.position[0]
         y = self.position[1]
 
-        idle_y_actions = ["north", "south", "none"]
-        idle_x_actions = ["east", "west", "none"]
+        idle_y_actions = ["north", "south", "none", "none"]
+        idle_x_actions = ["east", "west", "none", "none"]
         action_y = random.choice(idle_y_actions)
         action_x = random.choice(idle_x_actions)
         
