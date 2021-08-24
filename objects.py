@@ -1,5 +1,5 @@
 from animal_types import Camel
-from screen_setup import object_surface, screen
+from screen_setup import screen
 import pygame
 
 class Animal:
@@ -8,4 +8,4 @@ class Animal:
         self.sprite = self.type.sprite
     
     def DrawAnimal(self, position):
-        object_surface.blit(self.sprite, position)
+        screen.blit(self.sprite, position)
