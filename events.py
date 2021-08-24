@@ -32,8 +32,10 @@ def OnKeyboardPress(key, world):
         corrected_mouse_position = (mouse_position[0] - 15, mouse_position[1] - 15)
         camel = Animal(corrected_mouse_position)
 
+
     elif key == pygame.K_k:
-        animal_objects[len(animal_objects)-1].ActionIdle()
+        for i in animal_objects:
+            i.ActionIdle()
 
 def GetTileAtMousePosition(mouse_position, world):
     mouseX = mouse_position[0]
