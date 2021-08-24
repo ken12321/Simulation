@@ -19,6 +19,6 @@ while running:
             onEvent(event, newWorld)
                 
 
-
+    GenerateWorld(newWorld)
     # updates the screen
     pygame.display.update()

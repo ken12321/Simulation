@@ -12,7 +12,7 @@ class Tile:
 
     def ChangeType(self, new_type):
         self.type = new_type
-        print("tile at coords {coords} has been changed to type {type}".format(coords = self.position, type = new_type))
+        # print("tile at coords {coords} has been changed to type {type}".format(coords = self.position, type = new_type))
         DrawSquare(self)
 
 
