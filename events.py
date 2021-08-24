@@ -30,7 +30,7 @@ def OnKeyboardPress(key, world):
     elif key == pygame.K_c:
         mouse_position = pygame.mouse.get_pos()
         corrected_mouse_position = (mouse_position[0] - 15, mouse_position[1] - 15)
-        screen.blit(Animal().sprite, (corrected_mouse_position))
+        Animal().DrawAnimal(corrected_mouse_position)
 
 def GetTileAtMousePosition(mouse_position, world):
     mouseX = mouse_position[0]
