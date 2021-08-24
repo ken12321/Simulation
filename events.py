@@ -3,7 +3,7 @@ from world_generation import DrawSquare, xScreenScaling, yScreenScaling
 from tile_types import *
 from screen_setup import screen
 
-from objects import Animal
+from objects import Animal, animal_objects
 
 
 
@@ -30,7 +30,11 @@ def OnKeyboardPress(key, world):
     elif key == pygame.K_c:
         mouse_position = pygame.mouse.get_pos()
         corrected_mouse_position = (mouse_position[0] - 15, mouse_position[1] - 15)
-        Animal().DrawAnimal(corrected_mouse_position)
+        camel = Animal()
+        camel.DrawAnimal(corrected_mouse_position)
+        print(camel.id)
+        print(animal_objects)
+
 
 def GetTileAtMousePosition(mouse_position, world):
     mouseX = mouse_position[0]
