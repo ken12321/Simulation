@@ -34,8 +34,8 @@ def OnKeyboardPress(key, world):
 
 
     elif key == pygame.K_k:
-        for i in animal_objects:
-            i.ActionIdle()
+        pass
+        # for future testing, placing food ect
 
 def GetTileAtMousePosition(mouse_position, world):
     mouseX = mouse_position[0]

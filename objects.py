@@ -9,12 +9,17 @@ class Animal:
     def __init__(self, position):
         self.id = len(animal_objects)
         self.type = Camel()
-        self.sprite = self.type.sprite
+        self.sprite_east = self.type.sprite_east
+        self.sprite_west = self.type.sprite_west
         self.position = position
+        self.direction = "west"
         animal_objects.append(self)
     
     def DrawAnimal(self):
-        screen.blit(self.sprite, self.position)
+        if self.direction == "east":
+            screen.blit(self.sprite_east, self.position)
+        else:
+            screen.blit(self.sprite_west, self.position)
 
     def ActionIdle(self):
         x = self.position[0]
@@ -24,6 +29,8 @@ class Animal:
         idle_x_actions = ["east", "west", "none", "none"]
         action_y = random.choice(idle_y_actions)
         action_x = random.choice(idle_x_actions)
+        if action_x != "none":
+            self.direction = action_x
         
         if action_y == "north":
             y += 5
@@ -34,5 +41,9 @@ class Animal:
         elif action_x == "west":
             x -= 5
 
-        screen.blit(self.sprite, (x, y))
         self.position = (x, y)
+
+        if self.direction == "east":
+            screen.blit(self.sprite_east, self.position)
+        else:
+            screen.blit(self.sprite_west, self.position)

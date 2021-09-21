@@ -25,5 +25,6 @@ WATER = "water"
 # animal types and sprites
 CAMEL = "camel"
 SPRITE_LOAD_CAMEL = pygame.image.load('./sprites/camel.png')
-SPRITE_CAMEL = pygame.transform.scale(SPRITE_LOAD_CAMEL, (35, 35))
+SPRITE_CAMEL_EAST = pygame.transform.scale(SPRITE_LOAD_CAMEL, (35, 35))
+SPRITE_CAMEL_WEST = pygame.transform.flip(SPRITE_CAMEL_EAST, True, False)
  
