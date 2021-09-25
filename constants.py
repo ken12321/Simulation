@@ -21,6 +21,11 @@ SAND = "sand"
 GRASS = "grass"
 WATER = "water"
 
+# food sprites
+APPLE = "apple"
+SPRITE_LOAD_APPLE = pygame.image.load('./sprites/apple.png')
+SPRITE_APPLE = pygame.transform.scale(SPRITE_LOAD_APPLE, (20, 20))
+
 
 # animal types and sprites
 CAMEL = "camel"

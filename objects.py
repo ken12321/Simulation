@@ -1,9 +1,12 @@
 from animal_types import Camel
+from food_types import Apple
 from screen_setup import screen
 import pygame
 import random
 
 animal_objects = []
+
+food_objects = []
 
 class Animal:
     def __init__(self, position):
@@ -47,3 +50,14 @@ class Animal:
             screen.blit(self.sprite_east, self.position)
         else:
             screen.blit(self.sprite_west, self.position)
+
+class Food:
+    def __init__(self, position, type):
+            self.id = len(food_objects)
+            self.type = type
+            self.sprite = self.type.sprite
+            self.position = position
+            food_objects.append(self)
+        
+    def DrawFood(self):
+        screen.blit(self.sprite, self.position)
