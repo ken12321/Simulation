@@ -2,8 +2,12 @@ from animal_types import Camel
 from food_types import Apple
 from screen_setup import screen
 import pygame
-from math import sqrt
+from math import dist, sqrt
 import random
+
+import constants
+
+from tile_types import Water
 
 animal_objects = []
 
@@ -13,7 +17,11 @@ class Animal:
     def __init__(self, position):
         self.id = len(animal_objects)
         self.type = Camel()
-        self.sex = random.choice("male", "female")
+        # self.sex = random.choice("male", "female")
+        self.max_hunger = self.type.max_hunger
+        self.max_thirst = self.type.max_thirst
+        self.hunger = self.max_hunger
+        self.thirst = self.max_thirst
         self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
         self.sprite_east = self.type.sprite_east
         self.sprite_west = self.type.sprite_west
@@ -90,12 +98,15 @@ class Animal:
 
 
     def ActionSeekFood(self):
+        #print(self.hunger, " seeking food...")
         food_distance = []
         food_id = []
         for food in food_objects:
             if self.position == food.position:
                 food_objects.remove(food)
-            distance = sqrt((food.position[0] - self.position[0]) ** 2 * abs(food.position[1] - self.position[1]) ** 2) 
+                self.hunger = 10000
+            distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2) 
+            #print(distance)
             food_distance.append(distance)
             food_id.append(food)
 
@@ -104,6 +115,40 @@ class Animal:
         closest_food = food_id[index]
 
         self.ActionWalkToPosition(closest_food.position)
+
+    def ActionSeekWater(self, world):
+        #print(self.thirst, " seeking water...")
+        water_distance = []
+        tile_id = []
+        for tile in world.tile_array:
+            if tile.type.name == constants.WATER:
+                if (tile.real_max_x >= self.position[0] >= tile.real_x) and (tile.real_max_y >= self.position[1] >= tile.real_y):
+                    self.thirst = 10000
+    
+                distance = sqrt((self.position[0] - tile.real_x) ** 2 * (self.position[1] - tile.real_y) ** 2)
+                #print(distance) 
+                print(tile.real_position)
+                water_distance.append(distance)
+                tile_id.append(tile)
+
+        closest_water_distance = min(water_distance)
+        index = water_distance.index(closest_water_distance)
+        closest_water = tile_id[index]
+
+        self.ActionWalkToPosition(closest_water.real_position)
+
+    def PassiveStats(self):
+        self.hunger -= 5
+        self.thirst -= 10
+
+        if self.hunger <= 0:
+            self.hunger = 0
+        elif self.hunger >= self.max_hunger:
+            self.hunger = self.max_hunger
+        if self.thirst <= 0:
+            self.thirst = 0
+        elif self.thirst >= self.max_thirst:
+            self.thirst = self.max_thirst
 
 
 class Food:

@@ -23,7 +23,7 @@ while running:
     # camels will idle animation every 10 ticks
     frame += 1
     if frame % 10 == 0:
-        NextAction(frame)
+        NextAction(frame, newWorld)
         CleanupObjects()         
 
     GenerateWorld(newWorld)
