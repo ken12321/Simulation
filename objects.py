@@ -44,8 +44,10 @@ class Animal:
                 moveamount = x_distance
             if x_distance > 0:
                 x += moveamount
+                self.direction = "east"
             else:
                 x -= moveamount
+                self.direction = "west"
 
         if y_distance != 0:
             if abs(0 < y_distance < 5):
@@ -56,7 +58,6 @@ class Animal:
                 y -= moveamount
         
         self.position = (x, y)
-        self.ActionIdle(1)
 
 
     def ActionIdle(self, moveamount):

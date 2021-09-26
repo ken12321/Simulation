@@ -6,7 +6,6 @@ from events import onEvent, NextAction, CleanupObjects
 import world
 from world_generation import GenerateWorld
 
-#from objects import Animal, animal_objects
 
 newWorld = world.World(10)
 GenerateWorld(newWorld)
