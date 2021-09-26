@@ -13,6 +13,7 @@ class Animal:
     def __init__(self, position):
         self.id = len(animal_objects)
         self.type = Camel()
+        self.sex = random.choice("male", "female")
         self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
         self.sprite_east = self.type.sprite_east
         self.sprite_west = self.type.sprite_west
