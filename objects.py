@@ -2,6 +2,7 @@ from animal_types import Camel
 from food_types import Apple
 from screen_setup import screen
 import pygame
+from math import sqrt
 import random
 
 animal_objects = []
@@ -12,6 +13,7 @@ class Animal:
     def __init__(self, position):
         self.id = len(animal_objects)
         self.type = Camel()
+        self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
         self.sprite_east = self.type.sprite_east
         self.sprite_west = self.type.sprite_west
         self.position = position
@@ -24,7 +26,40 @@ class Animal:
         else:
             screen.blit(self.sprite_west, self.position)
 
-    def ActionIdle(self):
+
+    def ActionWalkToPosition(self, endposition):
+        x = self.position[0]
+        y = self.position[1]
+
+        ex = endposition[0]
+        ey = endposition[1]
+
+        x_distance = ex - x
+        y_distance = ey - y
+
+        moveamount = 5
+
+        if x_distance != 0:
+            if abs(0 < x_distance < 5):
+                moveamount = x_distance
+            if x_distance > 0:
+                x += moveamount
+            else:
+                x -= moveamount
+
+        if y_distance != 0:
+            if abs(0 < y_distance < 5):
+                moveamount = y_distance
+            if y_distance > 0:
+                y += moveamount
+            else:
+                y -= moveamount
+        
+        self.position = (x, y)
+        self.ActionIdle(1)
+
+
+    def ActionIdle(self, moveamount):
         x = self.position[0]
         y = self.position[1]
 
@@ -36,13 +71,13 @@ class Animal:
             self.direction = action_x
         
         if action_y == "north":
-            y += 5
+            y += moveamount
         elif action_y == "south":
-            y -= 5
+            y -= moveamount
         if action_x == "east":
-            x += 5
+            x += moveamount
         elif action_x == "west":
-            x -= 5
+            x -= moveamount
 
         self.position = (x, y)
 
@@ -50,6 +85,24 @@ class Animal:
             screen.blit(self.sprite_east, self.position)
         else:
             screen.blit(self.sprite_west, self.position)
+
+
+    def ActionSeekFood(self):
+        food_distance = []
+        food_id = []
+        for food in food_objects:
+            if self.position == food.position:
+                food_objects.remove(food)
+            distance = sqrt((food.position[0] - self.position[0]) ** 2 * abs(food.position[1] - self.position[1]) ** 2) 
+            food_distance.append(distance)
+            food_id.append(food)
+
+        closest_food_distance = min(food_distance)
+        index = food_distance.index(closest_food_distance)
+        closest_food = food_id[index]
+
+        self.ActionWalkToPosition(closest_food.position)
+
 
 class Food:
     def __init__(self, position, type):

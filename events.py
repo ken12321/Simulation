@@ -1,7 +1,7 @@
 import pygame
 from world_generation import DrawSquare, xScreenScaling, yScreenScaling
 from tile_types import *
-from screen_setup import screen
+from screen_setup import screen, xSize, ySize
 
 from objects import *
 
@@ -47,3 +47,17 @@ def GetTileAtMousePosition(mouse_position, world):
         if tile_y <= mouseY <= tile_y + yScreenScaling:  # if the room has the same coords as the mouse click
             if tile_x <= mouseX <= tile_x + xScreenScaling:
                 return tile
+
+def NextAction(frame):
+    for animal in animal_objects:
+        if len(food_objects) > 0:
+            animal.ActionSeekFood()
+        else:
+            animal.ActionIdle(animal.speed)
+
+def CleanupObjects():
+    for animal in animal_objects:
+        xCheck = animal.position[0] < 0 or animal.position[0] > xSize
+        yCheck = animal.position[1] < 0 or animal.position[1] > ySize
+        if (xCheck or yCheck):
+            animal.position = (round(xSize/2), round(ySize/2))

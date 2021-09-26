@@ -2,11 +2,11 @@ import pygame
 
 import constants
 
-from events import onEvent
+from events import onEvent, NextAction, CleanupObjects
 import world
 from world_generation import GenerateWorld
 
-from objects import Animal, animal_objects
+#from objects import Animal, animal_objects
 
 newWorld = world.World(10)
 GenerateWorld(newWorld)
@@ -24,8 +24,8 @@ while running:
     # camels will idle animation every 10 ticks
     frame += 1
     if frame % 10 == 0:
-        for i in animal_objects:
-            i.ActionIdle()            
+        NextAction(frame)
+        CleanupObjects()         
 
     GenerateWorld(newWorld)
     # updates the screen
