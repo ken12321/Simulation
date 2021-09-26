@@ -13,6 +13,7 @@ VEGAS_GOLD = (191, 174, 72)
 GREEN_RYB = (95, 173, 65)
 GREEN_CYAN = (45, 147, 108)
 
+EXCRETE_BROWN = (51, 37, 23)
 
 
 # tile types
@@ -33,3 +34,6 @@ SPRITE_LOAD_CAMEL = pygame.image.load('./sprites/camel.png')
 SPRITE_CAMEL_EAST = pygame.transform.scale(SPRITE_LOAD_CAMEL, (35, 35))
 SPRITE_CAMEL_WEST = pygame.transform.flip(SPRITE_CAMEL_EAST, True, False)
  
+
+# entities
+EXCREMENT = "excrement"

@@ -1,5 +1,5 @@
 from screen_setup import screen, background, xSize, ySize
-from objects import animal_objects, food_objects
+from objects import animal_objects, food_objects, entity_objects
 import pygame
 import constants
 
@@ -23,6 +23,9 @@ def DrawTiles(world):
         DrawSquare(tile)
 
 def DrawObjects():
+    if len(entity_objects) > 0:
+        for entity in entity_objects:
+            entity.DrawEntity()
     if len(food_objects) > 0:
         for food in food_objects:
             food.DrawFood()

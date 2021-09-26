@@ -1,4 +1,5 @@
 from animal_types import Camel
+from entity_types import Excrement
 from food_types import Apple
 from screen_setup import screen
 import pygame
@@ -10,6 +11,8 @@ import constants
 from tile_types import Water
 
 animal_objects = []
+
+entity_objects = []
 
 food_objects = []
 
@@ -98,15 +101,14 @@ class Animal:
 
 
     def ActionSeekFood(self):
-        #print(self.hunger, " seeking food...")
         food_distance = []
         food_id = []
         for food in food_objects:
             if self.position == food.position:
                 food_objects.remove(food)
                 self.hunger = 10000
+
             distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2) 
-            #print(distance)
             food_distance.append(distance)
             food_id.append(food)
 
@@ -117,17 +119,15 @@ class Animal:
         self.ActionWalkToPosition(closest_food.position)
 
     def ActionSeekWater(self, world):
-        #print(self.thirst, " seeking water...")
         water_distance = []
         tile_id = []
         for tile in world.tile_array:
             if tile.type.name == constants.WATER:
+                # detects if the animal is anywhere on the water tile
                 if (tile.real_max_x >= self.position[0] >= tile.real_x) and (tile.real_max_y >= self.position[1] >= tile.real_y):
                     self.thirst = 10000
-    
+
                 distance = sqrt((self.position[0] - tile.real_x) ** 2 * (self.position[1] - tile.real_y) ** 2)
-                #print(distance) 
-                print(tile.real_position)
                 water_distance.append(distance)
                 tile_id.append(tile)
 
@@ -136,6 +136,14 @@ class Animal:
         closest_water = tile_id[index]
 
         self.ActionWalkToPosition(closest_water.real_position)
+
+    def Excrete(self):
+        threshold = round(self.max_hunger * 0.7)
+        if self.hunger == threshold:
+            print("plop")
+            x = self.position[0] + 15
+            y = self.position[1] + 30
+            entity_objects.append(Entity((x, y), Excrement()))
 
     def PassiveStats(self):
         self.hunger -= 5
@@ -150,6 +158,8 @@ class Animal:
         elif self.thirst >= self.max_thirst:
             self.thirst = self.max_thirst
 
+        self.Excrete()
+
 
 class Food:
     def __init__(self, position, type):
@@ -161,3 +171,14 @@ class Food:
         
     def DrawFood(self):
         screen.blit(self.sprite, self.position)
+
+class Entity:
+    def __init__(self, position, type):
+            self.id = len(entity_objects)
+            self.position = position
+            self.type = type
+            
+    def DrawEntity(self):
+        if self.type.name == constants.EXCREMENT:
+            print("here")
+            pygame.draw.rect(screen, (constants.EXCRETE_BROWN), (self.position[0], self.position[1], 5, 2))
