@@ -17,9 +17,9 @@ entity_objects = []
 food_objects = []
 
 class Animal:
-    def __init__(self, position):
+    def __init__(self, position, type):
         self.id = len(animal_objects)
-        self.type = Camel()
+        self.type = type
         # self.sex = random.choice("male", "female")
         self.max_hunger = self.type.max_hunger
         self.max_thirst = self.type.max_thirst
@@ -140,7 +140,6 @@ class Animal:
     def Excrete(self):
         threshold = round(self.max_hunger * 0.7)
         if self.hunger == threshold:
-            print("plop")
             x = self.position[0] + 15
             y = self.position[1] + 30
             entity_objects.append(Entity((x, y), Excrement()))

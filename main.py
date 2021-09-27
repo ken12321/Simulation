@@ -10,9 +10,9 @@ from world_generation import GenerateWorld
 newWorld = world.World(10)
 GenerateWorld(newWorld)
 
-frame = 0
+tick = 0
 
-running = True
+running = True  # if false, ends game
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -20,10 +20,11 @@ while running:
         else:
             onEvent(event, newWorld)
 
-    # camels will idle animation every 10 ticks
-    frame += 1
-    if frame % 10 == 0:
-        NextAction(frame, newWorld)
+    tick += 1
+    if tick % 10 == 0:
+        # decides next action
+        NextAction(tick, newWorld)
+        # cleans up unused entities
         CleanupObjects()         
 
     GenerateWorld(newWorld)
