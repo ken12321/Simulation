@@ -33,6 +33,11 @@ CAMEL = "camel"
 SPRITE_LOAD_CAMEL = pygame.image.load('./sprites/camel.png')
 SPRITE_CAMEL_EAST = pygame.transform.scale(SPRITE_LOAD_CAMEL, (35, 35))
 SPRITE_CAMEL_WEST = pygame.transform.flip(SPRITE_CAMEL_EAST, True, False)
+
+LEOPARD = "leopard"
+SPRITE_LOAD_LEOPARD = pygame.image.load('./sprites/leopard.png')
+SPRITE_LEOPARD_EAST = pygame.transform.scale(SPRITE_LOAD_LEOPARD, (45, 30))
+SPRITE_LEOPARD_WEST = pygame.transform.flip(SPRITE_LEOPARD_EAST, True, False)
  
 
 # entities

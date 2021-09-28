@@ -32,6 +32,11 @@ def OnKeyboardPress(key, world):
         corrected_mouse_position = (mouse_position[0] - 15, mouse_position[1] - 15)
         camel = Animal(corrected_mouse_position, Camel())
 
+    elif key == pygame.K_l:
+        mouse_position = pygame.mouse.get_pos()
+        corrected_mouse_position = (mouse_position[0] - 15, mouse_position[1] - 15)
+        leopard = Animal(corrected_mouse_position, Leopard())
+
     elif key == pygame.K_k:
         mouse_position = pygame.mouse.get_pos()
         corrected_mouse_position = (mouse_position[0] - 10, mouse_position[1] - 10)

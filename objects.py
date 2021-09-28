@@ -1,4 +1,4 @@
-from animal_types import Camel
+from animal_types import Camel, Leopard
 from entity_types import Excrement
 from food_types import Apple
 from screen_setup import screen
@@ -30,6 +30,7 @@ class Animal:
         self.sprite_west = self.type.sprite_west
         self.position = position
         self.direction = "west"
+
         animal_objects.append(self)
     
     def DrawAnimal(self):
@@ -108,7 +109,7 @@ class Animal:
                 food_objects.remove(food)
                 self.hunger = 10000
 
-            distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2) 
+            distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2 ) 
             food_distance.append(distance)
             food_id.append(food)
 
