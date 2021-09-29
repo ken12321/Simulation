@@ -49,14 +49,14 @@ def GetTileAtMousePosition(mouse_position, world):
     for tile in world.tile_array:
         tile_x = tile.x * xScreenScaling
         tile_y = tile.y * yScreenScaling
-        if tile_y <= mouseY <= tile_y + yScreenScaling:  # if the room has the same coords as the mouse click
+        if tile_y <= mouseY <= tile_y + yScreenScaling:  # if the tile has the same coords as the mouse
             if tile_x <= mouseX <= tile_x + xScreenScaling:
                 return tile
 
 def NextAction(frame, world):
     for animal in animal_objects:
         animal.PassiveStats()
-        if animal.thirst <= 60:
+        if len(world.water_tile_array) > 0 and animal.thirst <= 60:
             animal.ActionSeekWater(world)
         elif len(food_objects) > 0 and animal.hunger <= 60:
             animal.ActionSeekFood()
@@ -64,6 +64,7 @@ def NextAction(frame, world):
             animal.ActionIdle(animal.speed)
 
 def CleanupObjects():
+    # right now, just brings any animals outside of screen into the center of the screen
     for animal in animal_objects:
         xCheck = animal.position[0] < 0 or animal.position[0] > xSize
         yCheck = animal.position[1] < 0 or animal.position[1] > ySize

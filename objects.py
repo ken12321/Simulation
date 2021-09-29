@@ -20,14 +20,14 @@ class Animal:
     def __init__(self, position, type):
         self.id = len(animal_objects)
         self.type = type
-        # self.sex = random.choice("male", "female")
         self.max_hunger = self.type.max_hunger
         self.max_thirst = self.type.max_thirst
-        self.hunger = self.max_hunger
-        self.thirst = self.max_thirst
-        self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
         self.sprite_east = self.type.sprite_east
         self.sprite_west = self.type.sprite_west
+        self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
+        self.hunger = self.max_hunger
+        self.thirst = self.max_thirst
+        
         self.position = position
         self.direction = "west"
 
@@ -50,7 +50,7 @@ class Animal:
         x_distance = ex - x
         y_distance = ey - y
 
-        moveamount = 5
+        moveamount = self.speed
 
         if x_distance != 0:
             if abs(0 < x_distance < 5):
@@ -107,7 +107,7 @@ class Animal:
         for food in food_objects:
             if self.position == food.position:
                 food_objects.remove(food)
-                self.hunger = 10000
+                self.hunger = self.max_hunger
 
             distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2 ) 
             food_distance.append(distance)
@@ -119,23 +119,25 @@ class Animal:
 
         self.ActionWalkToPosition(closest_food.position)
 
+
     def ActionSeekWater(self, world):
         water_distance = []
         tile_id = []
-        for tile in world.tile_array:
-            if tile.type.name == constants.WATER:
-                # detects if the animal is anywhere on the water tile
-                if (tile.real_max_x >= self.position[0] >= tile.real_x) and (tile.real_max_y >= self.position[1] >= tile.real_y):
-                    self.thirst = 10000
+        water_found_flag = False 
+        for tile in world.water_tile_array:
+            # if tile.type.name == constants.WATER:
+            #     water_found_flag = True
+            # detects if the animal is anywhere on the water tile
+            if (tile.real_max_x >= self.position[0] >= tile.real_x) and (tile.real_max_y >= self.position[1] >= tile.real_y):
+                self.thirst = self.max_thirst
 
-                distance = sqrt((self.position[0] - tile.real_x) ** 2 * (self.position[1] - tile.real_y) ** 2)
-                water_distance.append(distance)
-                tile_id.append(tile)
-
+            distance = sqrt((self.position[0] - tile.real_x) ** 2 * (self.position[1] - tile.real_y) ** 2)
+            water_distance.append(distance)
+            tile_id.append(tile)
+            
         closest_water_distance = min(water_distance)
         index = water_distance.index(closest_water_distance)
         closest_water = tile_id[index]
-
         self.ActionWalkToPosition(closest_water.real_position)
 
     def Excrete(self):
@@ -180,5 +182,4 @@ class Entity:
             
     def DrawEntity(self):
         if self.type.name == constants.EXCREMENT:
-            print("here")
             pygame.draw.rect(screen, (constants.EXCRETE_BROWN), (self.position[0], self.position[1], 5, 2))
