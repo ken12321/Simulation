@@ -56,9 +56,9 @@ def GetTileAtMousePosition(mouse_position, world):
 def NextAction(frame, world):
     for animal in animal_objects:
         animal.PassiveStats()
-        if len(world.water_tile_array) > 0 and animal.thirst <= 60:
+        if len(world.water_tile_array) > 0 and animal.thirst <= round(animal.max_thirst * 0.6):
             animal.ActionSeekWater(world)
-        elif len(food_objects) > 0 and animal.hunger <= 60:
+        elif len(food_objects) > 0 and animal.hunger <= round(animal.max_hunger * 0.6):
             animal.ActionSeekFood()
         else:
             animal.ActionIdle(animal.speed)

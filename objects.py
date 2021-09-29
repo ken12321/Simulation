@@ -123,11 +123,8 @@ class Animal:
     def ActionSeekWater(self, world):
         water_distance = []
         tile_id = []
-        water_found_flag = False 
         for tile in world.water_tile_array:
-            # if tile.type.name == constants.WATER:
-            #     water_found_flag = True
-            # detects if the animal is anywhere on the water tile
+            
             if (tile.real_max_x >= self.position[0] >= tile.real_x) and (tile.real_max_y >= self.position[1] >= tile.real_y):
                 self.thirst = self.max_thirst
 
