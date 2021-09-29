@@ -5,6 +5,7 @@ class World:
     def __init__(self, size):
         self.size = size
         self.tile_array = self.InitTileArray()
+        self.water_tile_array = []
 
     def InitTileArray(self):
         # Initializes the world's tiles
@@ -21,3 +22,7 @@ class World:
                 return tile
         else:
             return None
+
+    def AddToWaterTileArray(self, tile):
+        if not tile in self.water_tile_array:
+            self.water_tile_array.append(tile)

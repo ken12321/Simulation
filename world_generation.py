@@ -1,5 +1,6 @@
 from screen_setup import screen, background, xSize, ySize
 from objects import animal_objects, food_objects, entity_objects
+from tile_types import Water
 import pygame
 import constants
 
@@ -17,10 +18,13 @@ def DrawSquare(tile):
     pygame.draw.rect(screen, (tile_type.color), (x, y, xScreenScaling, yScreenScaling))
 
 
-def DrawTiles(world):
+def LoopTiles(world):
     world_tile_array = world.tile_array
     for tile in world_tile_array:
         DrawSquare(tile)
+        if tile.type.name == constants.WATER:
+            world.AddToWaterTileArray(tile)
+
 
 def DrawObjects():
     if len(entity_objects) > 0:
@@ -34,5 +38,5 @@ def DrawObjects():
             animal.DrawAnimal()
 
 def GenerateWorld(world):
-    DrawTiles(world)
+    LoopTiles(world)
     DrawObjects()

@@ -8,7 +8,7 @@ class Tile:
         self.position = position
         self.x = position[0]
         self.y = position[1]
-
+        
         # The coordinates of the tile in the world
         self.real_x = self.x * xScreenScaling
         self.real_y = self.y * yScreenScaling
@@ -19,10 +19,8 @@ class Tile:
 
         self.type = Sand()
 
-
     def ChangeType(self, new_type):
         self.type = new_type
-        # print("tile at coords {coords} has been changed to type {type}".format(coords = self.position, type = new_type))
         DrawSquare(self)
 
 
