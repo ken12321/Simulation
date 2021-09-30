@@ -1,6 +1,6 @@
 from constants import XSCREENSCALING, YSCREENSCALING
 from world_generation import DrawSquare
-from tile_types import Sand, Water
+from tile_types import Sand, Water, Grass
 
 class Tile:
     def __init__(self, position):
@@ -17,7 +17,7 @@ class Tile:
         self.real_max_x = self.real_x + XSCREENSCALING
         self.real_max_y = self.real_y + YSCREENSCALING
 
-        self.type = Sand()
+        self.type = Grass()
 
     def ChangeType(self, new_type):
         self.type = new_type

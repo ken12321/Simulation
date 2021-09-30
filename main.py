@@ -1,11 +1,12 @@
 import pygame
+from constants import TOTAL_WORLD_SIZE
 
 from events import onEvent, NextAction, CleanupObjects
 import world
 from world_generation import GenerateWorld
 
 
-newWorld = world.World(10)
+newWorld = world.World(TOTAL_WORLD_SIZE)
 GenerateWorld(newWorld)
 
 tick = 0
