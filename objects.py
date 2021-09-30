@@ -1,5 +1,5 @@
 from animal_types import Camel, Leopard
-from entity_types import Excrement, DeadBody
+from entity_types import Excrement, DeadBody, Tree
 from food_types import Apple
 from screen_setup import screen
 import pygame
@@ -145,16 +145,16 @@ class Animal:
         if self.hunger == threshold:
             x = self.position[0] + 15
             y = self.position[1] + 30
-            entity_objects.append(Entity((x, y), Excrement()))
+            Entity((x, y), Excrement())
 
     def Die(self):
         x = self.position[0]
         y = self.position[1]
 
         if self.direction == "east":
-            entity_objects.append(Entity((x, y), DeadBody(self.dead_sprite_east, self.type)))
+            Entity((x, y), DeadBody(self.dead_sprite_east, self.type))
         else:
-            entity_objects.append(Entity((x, y), DeadBody(self.dead_sprite_west, self.type)))
+            Entity((x, y), DeadBody(self.dead_sprite_west, self.type))
         animal_objects.remove(self)
 
     def PassiveStats(self, tick):
@@ -164,9 +164,8 @@ class Animal:
         if tick % 100 == 0:
             # ticks once every ~0.8s 
             self.age += 1
-            if self.age == self.max_age:
+            if self.age == self.max_age or self.hunger == 0 or self.thirst == 0:
                 self.Die()
-            print(self.id, self.age)
 
         if self.hunger <= 0:
             self.hunger = 0
@@ -178,7 +177,6 @@ class Animal:
             self.thirst = self.max_thirst
 
         self.Excrete()
-
 
 class Food:
     def __init__(self, position, type):
@@ -196,6 +194,10 @@ class Entity:
             self.id = len(entity_objects)
             self.position = position
             self.type = type
+
+            entity_objects.append(self)
+
+            print(len(entity_objects))
             
     def DrawEntity(self):
         if self.type.name == constants.EXCREMENT:

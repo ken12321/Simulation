@@ -9,3 +9,9 @@ class DeadBody:
         self.name = constants.DEADBODY
         self.animal = animal
         self.sprite = sprite
+
+class Tree:
+    def __init__(self, fruit):
+        self.name = constants.TREE
+        self.sprite = constants.SPRITE_TREE
+        self.fruit = fruit

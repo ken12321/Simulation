@@ -49,6 +49,11 @@ SPRITE_LEOPARD_DEAD_EAST = pygame.transform.scale(SPRITE_LOAD_LEOPARD_DEAD, (45,
 SPRITE_LEOPARD_DEAD_WEST = pygame.transform.flip(SPRITE_LEOPARD_DEAD_EAST, True, False)
  
 
-# entities
+# entities and sprites
 EXCREMENT = "excrement"
+
 DEADBODY = "deadbody"
+
+TREE = "tree"
+SPRITE_LOAD_TREE = pygame.image.load('./sprites/tree.png')
+SPRITE_TREE = pygame.transform.scale(SPRITE_LOAD_TREE, (20, 40))

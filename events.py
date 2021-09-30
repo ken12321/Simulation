@@ -41,6 +41,11 @@ def OnKeyboardPress(key, world):
         mouse_position = pygame.mouse.get_pos()
         corrected_mouse_position = (mouse_position[0] - 10, mouse_position[1] - 10)
         apple = Food(corrected_mouse_position, Apple())
+    
+    elif key == pygame.K_m:
+        mouse_position = pygame.mouse.get_pos()
+        corrected_mouse_position = (mouse_position[0] - 10, mouse_position[1] - 10)
+        tree = Entity(corrected_mouse_position, Tree(Apple()))
 
 def GetTileAtMousePosition(mouse_position, world):
     mouseX = mouse_position[0]
