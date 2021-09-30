@@ -1,5 +1,5 @@
 import pygame
-#from constants import DEFAULT_X_SIZE, DEFAULT_Y_SIZE
+from constants import XSIZE, YSIZE
 
 
 def ScreenSetup(xSize, ySize):
@@ -20,8 +20,5 @@ def BackgroundSetup(screen):
     background.fill((0, 0, 0))
     return background
 
-xSize = 400
-ySize = 400
-
-screen = ScreenSetup(xSize, ySize)
+screen = ScreenSetup(XSIZE, YSIZE)
 background = BackgroundSetup(screen)

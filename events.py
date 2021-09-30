@@ -1,10 +1,10 @@
 import pygame
-from world_generation import DrawSquare, xScreenScaling, yScreenScaling
+from world_generation import DrawSquare
 from tile_types import *
-from screen_setup import screen, xSize, ySize
+from screen_setup import screen
+from constants import XSIZE, YSIZE, XSCREENSCALING, YSCREENSCALING
 
 from objects import *
-
 
 
 def onEvent(event, world):
@@ -52,10 +52,10 @@ def GetTileAtMousePosition(mouse_position, world):
     mouseY = mouse_position[1]
 
     for tile in world.tile_array:
-        tile_x = tile.x * xScreenScaling
-        tile_y = tile.y * yScreenScaling
-        if tile_y <= mouseY <= tile_y + yScreenScaling:  # if the tile has the same coords as the mouse
-            if tile_x <= mouseX <= tile_x + xScreenScaling:
+        tile_x = tile.x * XSCREENSCALING
+        tile_y = tile.y * YSCREENSCALING
+        if tile_y <= mouseY <= tile_y + YSCREENSCALING:  # if the tile has the same coords as the mouse
+            if tile_x <= mouseX <= tile_x + XSCREENSCALING:
                 return tile
 
 def NextAction(tick, world):
@@ -71,7 +71,7 @@ def NextAction(tick, world):
 def CleanupObjects():
     # right now, just brings any animals outside of screen into the center of the screen
     for animal in animal_objects:
-        xCheck = animal.position[0] < 0 or animal.position[0] > xSize
-        yCheck = animal.position[1] < 0 or animal.position[1] > ySize
+        xCheck = animal.position[0] < 0 or animal.position[0] > XSIZE
+        yCheck = animal.position[1] < 0 or animal.position[1] > YSIZE
         if (xCheck or yCheck):
-            animal.position = (round(xSize/2), round(ySize/2))
+            animal.position = (round(XSIZE/2), round(YSIZE/2))

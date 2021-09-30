@@ -1,28 +1,22 @@
-from screen_setup import screen, background, xSize, ySize
+from screen_setup import screen, background
 from objects import animal_objects, food_objects, entity_objects
 from tile_types import Water
 import pygame
-import constants
-
-# max tilesin x and y
-TOTAL_WORLD_SIZE = 10
-
-xScreenScaling = xSize / TOTAL_WORLD_SIZE
-yScreenScaling = ySize / TOTAL_WORLD_SIZE
+from constants import WATER, XSIZE, YSIZE, TOTAL_WORLD_SIZE, XSCREENSCALING, YSCREENSCALING
 
 
 def DrawSquare(tile):
-    x = tile.x * xScreenScaling
-    y = tile.y * yScreenScaling
+    x = tile.x * XSCREENSCALING
+    y = tile.y * YSCREENSCALING
     tile_type = tile.type
-    pygame.draw.rect(screen, (tile_type.color), (x, y, xScreenScaling, yScreenScaling))
+    pygame.draw.rect(screen, (tile_type.color), (x, y, XSCREENSCALING, YSCREENSCALING))
 
 
 def LoopTiles(world):
     world_tile_array = world.tile_array
     for tile in world_tile_array:
         DrawSquare(tile)
-        if tile.type.name == constants.WATER:
+        if tile.type.name == WATER:
             world.AddToWaterTileArray(tile)
 
 

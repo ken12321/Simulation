@@ -1,7 +1,5 @@
 import pygame
 
-import constants
-
 from events import onEvent, NextAction, CleanupObjects
 import world
 from world_generation import GenerateWorld
