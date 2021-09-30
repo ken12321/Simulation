@@ -1,7 +1,7 @@
 import pygame
 
-XSIZE = 1000
-YSIZE = 1000
+XSIZE = 400
+YSIZE = 400
 
 #max tiles in x and y
 TOTAL_WORLD_SIZE = 10
