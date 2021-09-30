@@ -1,5 +1,5 @@
 from animal_types import Camel, Leopard
-from entity_types import Excrement
+from entity_types import Excrement, DeadBody
 from food_types import Apple
 from screen_setup import screen
 import pygame
@@ -24,10 +24,13 @@ class Animal:
         self.max_thirst = self.type.max_thirst
         self.sprite_east = self.type.sprite_east
         self.sprite_west = self.type.sprite_west
+        self.dead_sprite_east = self.type.dead_sprite_east
+        self.dead_sprite_west = self.type.dead_sprite_west
         self.speed = random.randint(self.type.minspeed, self.type.maxspeed)
         self.hunger = self.max_hunger
         self.thirst = self.max_thirst
-        
+        self.max_age = self.type.max_age
+        self.age = 0
         self.position = position
         self.direction = "west"
 
@@ -144,9 +147,26 @@ class Animal:
             y = self.position[1] + 30
             entity_objects.append(Entity((x, y), Excrement()))
 
-    def PassiveStats(self):
+    def Die(self):
+        x = self.position[0]
+        y = self.position[1]
+
+        if self.direction == "east":
+            entity_objects.append(Entity((x, y), DeadBody(self.dead_sprite_east, self.type)))
+        else:
+            entity_objects.append(Entity((x, y), DeadBody(self.dead_sprite_west, self.type)))
+        animal_objects.remove(self)
+
+    def PassiveStats(self, tick):
         self.hunger -= 5
         self.thirst -= 10
+
+        if tick % 100 == 0:
+            # ticks once every ~0.8s 
+            self.age += 1
+            if self.age == self.max_age:
+                self.Die()
+            print(self.id, self.age)
 
         if self.hunger <= 0:
             self.hunger = 0
@@ -180,3 +200,5 @@ class Entity:
     def DrawEntity(self):
         if self.type.name == constants.EXCREMENT:
             pygame.draw.rect(screen, (constants.EXCRETE_BROWN), (self.position[0], self.position[1], 5, 2))
+        else:
+            screen.blit(self.type.sprite, self.position)

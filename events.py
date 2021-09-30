@@ -53,9 +53,9 @@ def GetTileAtMousePosition(mouse_position, world):
             if tile_x <= mouseX <= tile_x + xScreenScaling:
                 return tile
 
-def NextAction(frame, world):
+def NextAction(tick, world):
     for animal in animal_objects:
-        animal.PassiveStats()
+        animal.PassiveStats(tick)
         if len(world.water_tile_array) > 0 and animal.thirst <= round(animal.max_thirst * 0.6):
             animal.ActionSeekWater(world)
         elif len(food_objects) > 0 and animal.hunger <= round(animal.max_hunger * 0.6):
