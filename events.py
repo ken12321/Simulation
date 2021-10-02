@@ -65,6 +65,8 @@ def NextAction(tick, world):
             animal.ActionSeekWater(world)
         elif len(food_objects) > 0 and animal.hunger <= round(animal.max_hunger * 0.6):
             animal.ActionSeekFood()
+        #elif animal.hunger <= round(animal.max_hunger * 0.9) and animal.thirst <= round(animal.max_thirst * 0.9) and animal.age >= animal.max_age / 10:
+        #    animal.ActionSeekMate()
         else:
             animal.ActionIdle(animal.speed)
 

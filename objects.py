@@ -30,6 +30,8 @@ class Animal:
         self.hunger = self.max_hunger
         self.thirst = self.max_thirst
         self.max_age = self.type.max_age
+        self.max_offsprint = 10
+        self.sex = random.choice(["male", "female"])
         self.age = 0
         self.position = position
         self.direction = "west"
@@ -140,6 +142,33 @@ class Animal:
         closest_water = tile_id[index]
         self.ActionWalkToPosition(closest_water.real_position)
 
+    def ActionSeekMate(self):
+        potential_mates = []
+        distance_from_mate = []
+
+        for animal in animal_objects:
+            if animal.type.name == self.type.name and animal.sex != self.sex and animal != self:
+                potential_mates.append(animal)
+        
+        for mate in potential_mates:
+            if self.position == mate.position and self.sex == "female":
+                self.Breed()
+                print("bow chicka wow wow")
+            
+            distance = sqrt( (self.position[0] - mate.position[0]) ** 2 * (self.position[1] - mate.position[1]) ** 2 ) 
+            distance_from_mate.append(distance)
+
+        if len(potential_mates) > 0:
+            closest_mate_distance = min(distance_from_mate)
+            index = distance_from_mate.index(closest_mate_distance)
+            closest_mate = potential_mates[index]
+
+            self.ActionWalkToPosition(closest_mate.position)
+
+    def Breed(self):
+        animal_objects.append(Animal(self.position, self.type))
+        self.max_offsprint -= 1
+
     def Excrete(self):
         threshold = round(self.max_hunger * 0.7)
         if self.hunger == threshold:
@@ -156,44 +185,6 @@ class Animal:
         else:
             Entity((x, y), DeadBody(self.dead_sprite_west, self.type))
         animal_objects.remove(self)
-
-    def ActionSeekMate(self):
-        potential_mates = []
-        distance_from_mate = []
-
-        for animal in animal_objects:
-            if animal.type.name == self.type.name and animal != self:
-                potential_mates.append(animal)
-        
-        for mate in potential_mates:
-            if self.position == mate.position:
-                # breed function goes here
-                print("bow chicka wow wow")
-            
-            distance = sqrt( (self.position[0] - mate.position[0]) ** 2 * (self.position[1] - mate.position[1]) ** 2 ) 
-            distance_from_mate.append(distance)
-
-        if len(potential_mates) > 0:
-            closest_mate_distance = min(distance_from_mate)
-            index = distance_from_mate.index(closest_mate_distance)
-            closest_mate = potential_mates[index]
-
-            self.ActionWalkToPosition(closest_mate.position)
-
-        # if self.position == food.position:
-        #         food_objects.remove(food)
-        #         self.hunger = self.max_hunger
-
-        #     distance = sqrt( (self.position[0] - food.position[0]) ** 2 * (self.position[1] - food.position[1]) ** 2 ) 
-        #     food_distance.append(distance)
-        #     food_id.append(food)
-
-        # closest_food_distance = min(food_distance)
-        # index = food_distance.index(closest_food_distance)
-        # closest_food = food_id[index]
-
-        # self.ActionWalkToPosition(closest_food.position)
-
 
 
     def PassiveStats(self, tick):
