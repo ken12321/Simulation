@@ -2,7 +2,7 @@ import pygame
 from world_generation import DrawSquare
 from tile_types import *
 from screen_setup import screen
-from constants import XSIZE, YSIZE, XSCREENSCALING, YSCREENSCALING
+from constants import TOTAL_WORLD_SIZE, XSIZE, YSIZE, XSCREENSCALING, YSCREENSCALING
 
 from objects import *
 
@@ -16,6 +16,37 @@ def OnKeyboardPress(key, world):
         mouse_position = pygame.mouse.get_pos()
         selected_tile = GetTileAtMousePosition(mouse_position, world)
         selected_tile.ChangeType(Water())
+
+        # changes tiles around water tiles to be sand
+
+        north_coords = [selected_tile.x, selected_tile.y + 1]
+        south_coords = [selected_tile.x, selected_tile.y - 1]
+        east_coords = [selected_tile.x + 1, selected_tile.y]
+        west_coords = [selected_tile.x - 1, selected_tile.y]
+
+        northeast_coords = [selected_tile.x + 1, selected_tile.y + 1]
+        northwest_coords = [selected_tile.x - 1, selected_tile.y + 1]
+        southeast_coords = [selected_tile.x + 1, selected_tile.y - 1]
+        southwest_coords = [selected_tile.x - 1, selected_tile.y - 1]
+
+        surrounding_coords = [north_coords, south_coords, east_coords, west_coords,
+                            northeast_coords, northwest_coords, southeast_coords, southwest_coords]
+        surrounding_tiles = []
+
+        for coords in surrounding_coords:
+            if not OutOfBoundsTileCheck(coords):
+                tile = world.TileAt(coords)
+                surrounding_tiles.append(tile)
+
+        deep_water_flag = True
+        for tile in surrounding_tiles:
+            if tile.type.name != constants.WATER and tile.type.name != constants.DEEP_WATER:
+                deep_water_flag = False
+                tile.ChangeType(Sand())
+
+        if deep_water_flag:
+            selected_tile.ChangeType(DeepWater())
+
 
     elif key == pygame.K_s:
         mouse_position = pygame.mouse.get_pos()
@@ -73,7 +104,15 @@ def NextAction(tick, world):
 def CleanupObjects():
     # right now, just brings any animals outside of screen into the center of the screen
     for animal in animal_objects:
-        xCheck = animal.position[0] < 0 or animal.position[0] > XSIZE
-        yCheck = animal.position[1] < 0 or animal.position[1] > YSIZE
+        xCheck = animal.position[0] < 0 or animal.position[0] > TOTAL_WORLD_SIZE
+        yCheck = animal.position[1] < 0 or animal.position[1] > TOTAL_WORLD_SIZE
         if (xCheck or yCheck):
             animal.position = (round(XSIZE/2), round(YSIZE/2))
+
+def OutOfBoundsTileCheck(coords):
+    x_check = coords[0] < 0 or coords[0] >= TOTAL_WORLD_SIZE
+    y_check = coords[1] < 0 or coords[1] >= TOTAL_WORLD_SIZE
+    if (x_check or y_check):
+        return True
+    else:
+        return False

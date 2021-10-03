@@ -20,8 +20,8 @@ class World:
         for tile in self.tile_array:
             if tile.position == coords:
                 return tile
-        else:
-            return None
+
+        return None
 
     def AddToWaterTileArray(self, tile):
         if not tile in self.water_tile_array:
