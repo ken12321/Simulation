@@ -30,11 +30,13 @@ class Animal:
         self.hunger = self.max_hunger
         self.thirst = self.max_thirst
         self.max_age = self.type.max_age
-        self.max_offsprint = 10
+        self.max_offspring = 10
         self.sex = random.choice(["male", "female"])
         self.age = 0
         self.position = position
         self.direction = "west"
+        self.breed_ready = False
+        self.last_tick_bred = 0
 
         animal_objects.append(self)
     
@@ -142,18 +144,17 @@ class Animal:
         closest_water = tile_id[index]
         self.ActionWalkToPosition(closest_water.real_position)
 
-    def ActionSeekMate(self):
+    def ActionSeekMate(self, tick):
         potential_mates = []
         distance_from_mate = []
 
         for animal in animal_objects:
-            if animal.type.name == self.type.name and animal.sex != self.sex and animal != self:
+            if animal.type.name == self.type.name and animal.sex != self.sex and animal.breed_ready and animal != self:
                 potential_mates.append(animal)
         
         for mate in potential_mates:
             if self.position == mate.position and self.sex == "female":
-                self.Breed()
-                print("bow chicka wow wow")
+                self.Breed(tick)
             
             distance = sqrt( (self.position[0] - mate.position[0]) ** 2 * (self.position[1] - mate.position[1]) ** 2 ) 
             distance_from_mate.append(distance)
@@ -165,9 +166,10 @@ class Animal:
 
             self.ActionWalkToPosition(closest_mate.position)
 
-    def Breed(self):
+    def Breed(self, tick):
         animal_objects.append(Animal(self.position, self.type))
-        self.max_offsprint -= 1
+        self.max_offspring -= 1
+        self.last_tick_bred = tick
 
     def Excrete(self):
         threshold = round(self.max_hunger * 0.7)
@@ -188,14 +190,16 @@ class Animal:
 
 
     def PassiveStats(self, tick):
-        self.hunger -= 5
-        self.thirst -= 10
+        self.hunger -= 2
+        self.thirst -= 4
 
         if tick % 100 == 0:
             # ticks once every ~0.8s 
             self.age += 1
             if self.age == self.max_age or self.hunger == 0 or self.thirst == 0:
                 self.Die()
+        
+        self.breed_ready = self.CanBreedCheck(tick)
 
         if self.hunger <= 0:
             self.hunger = 0
@@ -207,6 +211,16 @@ class Animal:
             self.thirst = self.max_thirst
 
         self.Excrete()
+
+    def CanBreedCheck(self, tick):
+        # checks if animal is well fed and is not thirsty
+        if self.hunger >= round(self.max_hunger * 0.9) and self.thirst >= round(self.max_thirst * 0.9):
+            # checks is animal is of a certain age
+            if True: #self.age >= round(self.max_age / 10):
+                # if a certain amount of time has passed since last bred
+                if tick >= self.last_tick_bred + 5000:
+                    return True
+        return False
 
 class Food:
     def __init__(self, position, type):
@@ -226,8 +240,6 @@ class Entity:
             self.type = type
 
             entity_objects.append(self)
-
-            print(len(entity_objects))
             
     def DrawEntity(self):
         if self.type.name == constants.EXCREMENT:

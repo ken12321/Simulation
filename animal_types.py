@@ -1,4 +1,5 @@
 import constants
+import pygame
 
 class Camel:
     def __init__(self):
@@ -11,7 +12,7 @@ class Camel:
         self.maxspeed = 8
         self.max_hunger = 1000
         self.max_thirst = 1000
-        self.max_age = 150 # in approx milliseconds
+        self.max_age = 1500 # in approx milliseconds
 
 class Leopard:
     def __init__(self):
@@ -24,7 +25,7 @@ class Leopard:
         self.maxspeed = 8
         self.max_hunger = 1000
         self.max_thirst = 1000
-        self.max_age = 150 # in approx milliseconds
+        self.max_age = 1500 # in approx milliseconds
         
 
         
