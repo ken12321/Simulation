@@ -104,8 +104,8 @@ def NextAction(tick, world):
 def CleanupObjects():
     # right now, just brings any animals outside of screen into the center of the screen
     for animal in animal_objects:
-        xCheck = animal.position[0] < 0 or animal.position[0] > TOTAL_WORLD_SIZE
-        yCheck = animal.position[1] < 0 or animal.position[1] > TOTAL_WORLD_SIZE
+        xCheck = animal.position[0] < 0 or animal.position[0] >= XSIZE
+        yCheck = animal.position[1] < 0 or animal.position[1] >= YSIZE
         if (xCheck or yCheck):
             animal.position = (round(XSIZE/2), round(YSIZE/2))
 

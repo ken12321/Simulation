@@ -215,11 +215,13 @@ class Animal:
     def CanBreedCheck(self, tick):
         # checks if animal is well fed and is not thirsty
         if self.hunger >= round(self.max_hunger * 0.9) and self.thirst >= round(self.max_thirst * 0.9):
-            # checks is animal is of a certain age
-            if True: #self.age >= round(self.max_age / 10):
-                # if a certain amount of time has passed since last bred
-                if tick >= self.last_tick_bred + 5000:
-                    return True
+            # check if the animal has met it's maximum offspring
+            if self.max_offspring < 0:
+                # checks is animal is of a certain age
+                if self.age >= 5:
+                    # if a certain amount of time has passed since last bred
+                    if tick >= self.last_tick_bred + 5000:
+                        return True
         return False
 
 class Food:
